@@ -1,0 +1,138 @@
+<!-- container -->
+<div *ngIf="dis" class=" container-fluid bg-light  ">
+    <!-- slider -->
+    <div  class= "bg-dark ">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top ">
+            <div class="container-fluid"><a href=""><label class="logo">RCHat</label></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" ><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse"id="navbarResponsive">
+                    <div class="navbar-nav ml-auto">
+                        <h3 class="username"> <a href="#"> Hello,{{name.value}}</a></h3>&nbsp;&nbsp;
+                        <div class="navbar-nav xl-auto">
+                            <div *ngIf="767>w">
+                                <div class="navbar scrollmenu" >
+                                   <a *ngFor="let j of user" >{{j}}</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div  style="text-align: center;"><button class="btn btn-primary btn-sm"data-toggle="modal" data-target="#myModal">info</button>&nbsp;&nbsp;
+                        <button class="btn btn-danger btn-sm" (click)="leave()">leave</button></div>&nbsp;&nbsp;
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="row " style="scrollbar-width: 2px solid rgb(21, 21, 248);">
+        <!-- sidenav usernames -->
+        <div class="col-xl-2 col-md-3 bg-light contain" *ngIf="w>767">
+            <div>
+                <div style="text-align: center; " class="sticky-top bg-light">
+                    <input #ser class="input-group" [(ngModel)]="search" (change)="search=''" placeholder="Search.." type="text">
+                </div>
+                <div *ngFor="let j of user | filter:search">
+                    <div class="disuser list-group-item list-group-item-action list-group-item- py-1 padding ">
+                        <i class="material-icons">person</i><span>{{j}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- messge box -->
+        <div class="col-xl-10 col-sm-12 col-md-9 msgbox">
+            <div class="media"  *ngFor="let msd of messages">
+                <div class="media-body " >
+                    <div class="bg-dark rounded py-2 px-2 mb-2" *ngIf="msd.usr!='You'">
+                        <p class="text-small mb-2 text-white"  ><b>{{msd.usr}}</b>&nbsp;:&nbsp;{{msd.msg}}</p>
+                    </div>
+                    <p class="small text-muted"*ngIf="msd.usr!='You'">{{ mdate | date:'mediumTime'}} | {{mdate | date:'mediumDate'}}</p>
+                <div class="media ml-auto text-right mb-2"  >
+                    <div class="media-body"  >
+                        <div class="bg-primary rounded py-2 px-2 mb-2" *ngIf="msd.usr=='You'">
+                            <p class="text-small mb-2 text-white ">{{msd.msg}}</p>
+                        </div>
+                        <p class="small text-muted" *ngIf="msd.usr=='You'">{{ mdate | date:'mediumTime'}} | {{mdate | date:'mediumDate'}}</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- input box -->
+    <div class=" text-center ">
+        <div class="input-group">
+        <input #msgr  [(ngModel)]="message" type="text" 
+        minlength="1" required (keydown.enter)="snd(msgr)" 
+        [ngStyle]="{'border-color':bc}"
+            (keyup.enter)="msgr.value=null"
+            placeholder="Type your message.."  class=" input form-control">
+            <div class="input-group-default">
+                <button class=" btn btn-primary" type="buton" (click)="snd(msgr)" [disabled]="msgr.value.length==0" id="inputGroup-sizing-default">Send</button>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- modals -->
+
+
+<!-- bg modal -->
+<div class="backdrop" [ngStyle]="{'display':display}"></div>
+<!-- name modal -->
+<div class="modal fade show" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+ <div class=" modal-dialog modal-dialog-centered modal-full-height modal-info" role="document">
+   <div class="modal-content">
+    <div class="alert alert-danger alert-dismissible" *ngIf="alt" role="alert">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>Oh snap!</strong> Username is already taken..
+    </div>
+    <div class="modal-header">
+        <h4 class="modal-title">Welcome to RchaT</h4>
+       <button type="button" class="close" (click)="leave()" aria-label="Close" ><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-body">
+        <div class="d-flex align-items-center flex-column justify-content-center h-100  text-white" id="header">
+                <div class="form-group">
+                    <input ngModel #name="ngModel" pattern="[^\S]{0,50}" autofocus  minlength="1" 
+                    (change)="alert()" (keyup.enter)="chatnow(name.value)" class="form-control form-control-lg" 
+                    placeholder="Name" type="text" required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-info btn-lg btn-block" (click)="chatnow(name.value)" [disabled]="name.errors?.pattern && name.errors?.required">CHat Now</button>
+                </div>
+        </div>
+    </div>
+   </div>
+ </div>
+</div>
+
+
+
+<!-- info modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Info</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align: left;"><label ><b style="opacity: 30%;">Created By  &nbsp;:</b>&nbsp;     Ramanathan</label>
+                <p><b style="opacity: 30%;">Source &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;</b>&nbsp;<a href="http://github.com/Ramanathan87" target="__blank">GitHub</a></p></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+

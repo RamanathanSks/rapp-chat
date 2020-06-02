@@ -1,0 +1,20 @@
+// public getusr = () => {
+  //   return Observable.create((observer) => {
+  //       this.socket.on('userback', (data) => {
+  //           observer.next(data);
+  //       });
+  //   });
+  // }
+
+
+
+  //   this.socket.sendusr({msg:0,usr:this.name}); 
+  //   this.socket.getusr().subscribe((data:any)=>{
+  //     if (data.usr==this.name){
+  //       data.usr="You are in .....";
+  //     }
+  //     else{
+  //       data.usr=`${data.usr} joinied the Chat`;
+  //     }
+  //     this.logs.push(data);
+  //   }) ;
